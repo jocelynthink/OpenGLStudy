@@ -1,2 +1,2 @@
-ѧϰOpenGL
-�̳̣�https://learnopengl-cn.readthedocs.io/zh/
+学习OpenGL记录
+https://learnopengl-cn.readthedocs.io/zh/
