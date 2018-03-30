@@ -1,7 +1,0 @@
-﻿  main.cpp
-c:\users\hkj\documents\workspace\openglstudy\openglstudy\main.cpp(234): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
-c:\users\hkj\documents\workspace\openglstudy\openglstudy\main.cpp(235): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
-  GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  OpenGLStudy.vcxproj -> C:\Users\hkj\Documents\workspace\OpenGLStudy\Debug\OpenGLStudy.exe
-  OpenGLStudy.vcxproj -> C:\Users\hkj\Documents\workspace\OpenGLStudy\Debug\OpenGLStudy.pdb (Partial PDB)

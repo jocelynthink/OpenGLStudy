@@ -8,8 +8,19 @@
 #include "glm\gtc\type_ptr.hpp"
 
 const GLuint  WIDTH = 800, HEIGHT = 600;
+
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+bool keys[1024];
+void do_movement();
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mode);
 GLfloat mixValue = 0.2f;
+
+GLfloat deltaTime = 0.0f;
+GLfloat lastFrame = 0.0f;
+
 int main() {
 	std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
 	glfwInit();
@@ -186,6 +197,10 @@ int main() {
 	while (!glfwWindowShouldClose(window)) {
 		// 检查事件
 		glfwPollEvents();
+		GLfloat currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+		do_movement();
 		// 渲染指令
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);//是一个状态设置函数
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//是一个状态应用的函数
@@ -208,17 +223,6 @@ int main() {
 
 		ourShader.Use();
 
-		glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-		glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-		// 方向，z轴
-		glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
-
-		// 向右，x轴正方向
-		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-		glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-		// 上轴，y轴方向
-		glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
-
 		// 3.  绘制物体
 		glm::mat4 trans;
 		//trans = glm::rotate(trans, (GLfloat)glfwGetTime() * 50.0f, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -230,12 +234,12 @@ int main() {
 		glm::mat4 view;
 		glm::mat4 projection;
 		//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -6.0f));
-		GLfloat radius = 10.0f;
-		GLfloat camX = sin(glfwGetTime()) * radius;
-		GLfloat camZ = cos(glfwGetTime()) * radius;
-		view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		//GLfloat radius = 10.0f;
-		
+		//GLfloat camX = sin(glfwGetTime()) * radius;
+		//GLfloat camZ = cos(glfwGetTime()) * radius;
+
+		//GLfloat radius = 10.0f;
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 		GLint transformLoc = glGetUniformLocation(ourShader.Program, "view");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(view));
@@ -295,5 +299,28 @@ void key_callback(GLFWwindow * window, int key, int scancode, int action, int mo
 		if (mixValue <= 0.0f) {
 			mixValue = 0.0f;
 		}
+	}
+
+	if (action == GLFW_PRESS) {
+		keys[key] = true;
+	}
+	else if (action == GLFW_RELEASE) {
+		keys[key] = false;
+	}
+}
+
+void do_movement() {
+	GLfloat cameraSpeed = 5.0f * deltaTime;
+	if (keys[GLFW_KEY_W]) {
+		cameraPos += cameraSpeed * cameraFront;
+	}
+	if (keys[GLFW_KEY_S]) {
+		cameraPos -= cameraSpeed * cameraFront;
+	}
+	if (keys[GLFW_KEY_A]) {
+		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	}
+	if (keys[GLFW_KEY_D]) {
+		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 	}
 }
