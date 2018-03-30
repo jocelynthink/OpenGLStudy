@@ -208,7 +208,18 @@ int main() {
 
 		ourShader.Use();
 
-		// 3. 绘制物体
+		glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+		glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+		// 方向，z轴
+		glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+
+		// 向右，x轴正方向
+		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+		glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+		// 上轴，y轴方向
+		glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+
+		// 3.  绘制物体
 		glm::mat4 trans;
 		//trans = glm::rotate(trans, (GLfloat)glfwGetTime() * 50.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 		//trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
@@ -218,7 +229,13 @@ int main() {
 		
 		glm::mat4 view;
 		glm::mat4 projection;
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -6.0f));
+		GLfloat radius = 10.0f;
+		GLfloat camX = sin(glfwGetTime()) * radius;
+		GLfloat camZ = cos(glfwGetTime()) * radius;
+		view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//GLfloat radius = 10.0f;
+		
 		projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 		GLint transformLoc = glGetUniformLocation(ourShader.Program, "view");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(view));
@@ -231,9 +248,9 @@ int main() {
 			glm::mat4 model;
 			model = glm::translate(model, cubePositions[i]);
 			GLfloat angle = 20.0f * i;
-			if (i % 4 == 0) {
-				angle = glfwGetTime() * 25.0f;
-			}
+			//if (i % 4 == 0) {
+			//	angle = glfwGetTime() * 25.0f;
+			//}
 			model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
 			GLint transformLoc = glGetUniformLocation(ourShader.Program, "model");
 			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
