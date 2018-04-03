@@ -117,16 +117,21 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="main_camera2.cpp" />
     <ClCompile Include="main_camera.cpp" />
     <ClCompile Include="main_test.cpp" />
     <ClCompile Include="main_triangles.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="light.frag" />
+    <None Include="light.vs" />
     <None Include="shader.frag" />
     <None Include="shader.vs" />
   </ItemGroup>

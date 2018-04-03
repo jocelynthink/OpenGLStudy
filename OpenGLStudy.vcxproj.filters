@@ -30,7 +30,13 @@
     <ClCompile Include="main_camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="main_camera2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,9 +47,14 @@
     <ClInclude Include="Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.frag" />
     <None Include="shader.vs" />
+    <None Include="light.frag" />
+    <None Include="light.vs" />
   </ItemGroup>
 </Project>
